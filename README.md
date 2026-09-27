@@ -53,6 +53,10 @@ To mark a release as mandatory:
 .\Publish-MiXeLeD-Release.cmd -Notes "Required update" -Mandatory
 ```
 
+A published version is treated as immutable. If `vX.Y.Z` already exists, the
+script stops and asks for a version bump. `-ForceRepublish` exists only for
+recovering an incomplete/broken publication of the same version.
+
 ## Update manifest
 
 Example:
