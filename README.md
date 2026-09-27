@@ -5,21 +5,55 @@ Public release channel for the MiXeLeD desktop application.
 The source code and production database are **not** stored in this repository.
 Only published application packages and the public update manifest belong here.
 
-## Release procedure
+## Publish directly from Visual Studio
 
-1. Build/publish MiXeLeD in Release mode.
-2. Zip the **contents of the publish folder** as:
-   `MiXeLeD-X.Y.Z.zip`
-3. Create a GitHub Release with tag:
-   `vX.Y.Z`
-4. Upload the ZIP as a release asset.
-5. Calculate SHA-256 on the final ZIP:
+The main MiXeLeD repository contains:
 
-   ```powershell
-   Get-FileHash .\MiXeLeD-X.Y.Z.zip -Algorithm SHA256
-   ```
+- `Publish-MiXeLeD-Release.cmd`
+- `tools/Publish-MiXeLeDRelease.ps1`
 
-6. Update `latest.json` only after the release asset is uploaded and the SHA-256 is known.
+Open **Terminal** in Visual Studio at the repository root and run:
+
+```powershell
+.\Publish-MiXeLeD-Release.cmd
+```
+
+The script automatically:
+
+1. Reads the version from `MiXeLeD/MiXeLeD.vbproj`.
+2. Runs `dotnet publish -c Release`.
+3. Creates `MiXeLeD-X.Y.Z.zip`.
+4. Calculates the SHA-256 checksum.
+5. Creates the GitHub Release `vX.Y.Z` and uploads the ZIP.
+6. Updates `latest.json` only after the release package has uploaded successfully.
+
+Local build output is written under `.release\X.Y.Z\` in the main source repository
+and is ignored by Git.
+
+### First-time setup on the development PC
+
+GitHub CLI must be installed and authenticated:
+
+```powershell
+winget install --id GitHub.cli
+gh auth login
+```
+
+After that, normal releases need only the one publish command above.
+
+Optional release notes can be supplied from the Visual Studio terminal:
+
+```powershell
+.\Publish-MiXeLeD-Release.cmd -Notes "Description of this release"
+```
+
+To mark a release as mandatory:
+
+```powershell
+.\Publish-MiXeLeD-Release.cmd -Notes "Required update" -Mandatory
+```
+
+## Update manifest
 
 Example:
 
