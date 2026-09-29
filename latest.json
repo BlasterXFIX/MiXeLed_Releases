@@ -1,9 +1,9 @@
 {
-    "version":  "1.0.159",
-    "packageUrl":  "https://github.com/BlasterXFIX/MiXeLed_Releases/releases/download/v1.0.159/MiXeLeD-1.0.159.zip",
-    "sha256":  "B2380DCA24B6A105340C8B97E583803BF02D76BA05209F1DB036D46435D3170D",
+    "version":  "1.0.160",
+    "packageUrl":  "https://github.com/BlasterXFIX/MiXeLed_Releases/releases/download/v1.0.160/MiXeLeD-1.0.160.zip",
+    "sha256":  "BDCBD86B18CB481A4E36619B81B27773779AEDEBA3F53EC4B7A720EA83C58A94",
     "mandatory":  false,
     "notes":  [
-                  "MiXeLeD 1.0.159 release"
+                  "MiXeLeD 1.0.160 release"
               ]
 }
