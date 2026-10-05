@@ -1,0 +1,67 @@
+name: Publish MiXeLeD 1.0.317
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - ".github/workflows/publish-1.0.317.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout release repository
+        uses: actions/checkout@v4
+
+      - name: Download verified build artifact
+        shell: bash
+        run: |
+          set -euo pipefail
+          curl -fL --retry 3 --retry-delay 2 'https://sdmntprdenmarkeast.oaiusercontent.com/files/00000000-8ba8-8210-a2b3-651985cc7203/raw?se=2026-10-05T07%3A36%3A10Z&sp=r&sv=2026-02-06&sr=b&scid=d3a060a5-651d-5f8e-bafb-9efa4e0781c1&skoid=9b41a688-1b44-4731-856e-b0efcf3660ed&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2026-10-05T03%3A45%3A02Z&ske=2026-10-06T03%3A45%3A02Z&sks=b&skv=2026-02-06&sig=X7nvjsoTeqdXjOI6uaWXJ6Seoy%2BD2hUSC80V4b2oRfM%3D' -o artifact.zip
+          mkdir artifact
+          unzip -q artifact.zip -d artifact
+          test -f artifact/MiXeLeD-1.0.317.zip
+          test -f artifact/SHA256.txt
+          expected="$(awk '{print tolower($1)}' artifact/SHA256.txt)"
+          actual="$(sha256sum artifact/MiXeLeD-1.0.317.zip | awk '{print $1}')"
+          test "$expected" = "$actual"
+          test "$actual" = "72dee0053048c378afd789940f97413364b4fe70108858d1e2f6e66b3500fac7"
+
+      - name: Publish GitHub release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          if gh release view v1.0.317 --repo BlasterXFIX/MiXeLed_Releases >/dev/null 2>&1; then
+            gh release upload v1.0.317 artifact/MiXeLeD-1.0.317.zip --repo BlasterXFIX/MiXeLed_Releases --clobber
+            gh release edit v1.0.317 --repo BlasterXFIX/MiXeLed_Releases --title "MiXeLeD 1.0.317" --notes "Datacolor calibration companion-file import fix."
+          else
+            gh release create v1.0.317 artifact/MiXeLeD-1.0.317.zip --repo BlasterXFIX/MiXeLed_Releases --title "MiXeLeD 1.0.317" --notes "Datacolor calibration companion-file import fix."
+          fi
+
+      - name: Update auto-update manifest
+        shell: bash
+        run: |
+          set -euo pipefail
+          cat > latest.json <<'JSON'
+          {
+            "version": "1.0.317",
+            "packageUrl": "https://github.com/BlasterXFIX/MiXeLed_Releases/releases/download/v1.0.317/MiXeLeD-1.0.317.zip",
+            "sha256": "72DEE0053048C378AFD789940F97413364B4FE70108858D1E2F6E66B3500FAC7",
+            "mandatory": false,
+            "notes": [
+              "MiXeLeD 1.0.317: исправлен импорт полного комплекта калибровки Datacolor. После выбора PRxxxx.CAL программа автоматически ищет WHITESE.DAT, WHITESI.DAT и diagtile.ini в той же папке и в каталогах Datacolor; окно выбора теперь показывает CAL/DAT/INI/GLS/ZIP."
+            ]
+          }
+          JSON
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add latest.json
+          git commit -m "Publish MiXeLeD 1.0.317 manifest" || exit 0
+          git push
