@@ -1,12 +1,12 @@
 {
-  "version": "1.0.323",
-  "packageUrl": "https://github.com/BlasterXFIX/MiXeLed_Releases/releases/download/v1.0.323/MiXeLeD-1.0.323.zip",
-  "sha256": "FE0232EF0A817C1DC6E0B2E09CC0DDC47F4CE54DB2BF28A6FB7D35CE40679887",
-  "deltaPackageUrl": "https://github.com/BlasterXFIX/MiXeLed_Releases/releases/download/v1.0.323/MiXeLeD-1.0.322-to-1.0.323.delta.zip",
-  "deltaSha256": "CAC128CDC7B5D4C6AB6F0A2214A607B59E26CE8250AB4567B5EB7421E6A48CD2",
-  "deltaFromVersion": "1.0.322",
+  "version": "1.0.324",
+  "packageUrl": "https://github.com/BlasterXFIX/MiXeLed_Releases/releases/download/v1.0.324/MiXeLeD-1.0.324.zip",
+  "sha256": "4D7E78AA6F1D87A8628A07757276E678640A5B42784EC7BBD3B1DE9A324DA45D",
+  "deltaPackageUrl": "https://github.com/BlasterXFIX/MiXeLed_Releases/releases/download/v1.0.324/MiXeLeD-1.0.323-to-1.0.324.delta.zip",
+  "deltaSha256": "C902912C02197480F5B8430E4599651C0771E966CF1D46F1A19724037583A585",
+  "deltaFromVersion": "1.0.323",
   "mandatory": false,
   "notes": [
-    "MiXeLeD 1.0.323: зелёная плитка выполняется до перезапуска Host; рабочая калибровка снова хранится в родной папке Datacolor Calibration Files и после этого проверяется новым Host."
+    "MiXeLeD 1.0.324: добавлен полный диагностический лог калибровки Datacolor — MiXeLeD, Host и Bridge, PID/состояния, native API шаги, spClose/cold-start и снимки CAL/WHITE файлов с SHA-256. В диагностике прибора добавлена кнопка «Открыть лог калибровки»."
   ]
 }
