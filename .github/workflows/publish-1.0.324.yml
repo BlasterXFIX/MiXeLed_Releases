@@ -1,0 +1,70 @@
+name: Publish MiXeLeD 1.0.324
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - ".github/workflows/publish-1.0.324.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout release repository
+        uses: actions/checkout@v4
+
+      - name: Download verified build artifact
+        shell: bash
+        run: |
+          set -euo pipefail
+          curl -fL --retry 3 --retry-delay 2 'https://sdmntprdenmarkeast.oaiusercontent.com/files/00000000-0cc8-8210-acf7-fa07dcc9c5ff/raw?se=2026-10-05T11%3A38%3A10Z&sp=r&sv=2026-02-06&sr=b&scid=b97b4518-802d-578a-8a6d-b5495e940dc3&skoid=9b41a688-1b44-4731-856e-b0efcf3660ed&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2026-10-04T18%3A01%3A32Z&ske=2026-10-05T18%3A01%3A32Z&sks=b&skv=2026-02-06&sig=WYLiXqPCpG9kqnbLTBGfm8sbTaRxDZQDhTkfibCjjAk%3D' -o artifact.zip
+          mkdir artifact
+          unzip -q artifact.zip -d artifact
+          test -f artifact/MiXeLeD-1.0.324.zip
+          test -f artifact/MiXeLeD-1.0.323-to-1.0.324.delta.zip
+          full="$(sha256sum artifact/MiXeLeD-1.0.324.zip | awk '{print $1}')"
+          delta="$(sha256sum artifact/MiXeLeD-1.0.323-to-1.0.324.delta.zip | awk '{print $1}')"
+          test "$full" = "4d7e78aa6f1d87a8628a07757276e678640a5b42784ec7bbd3b1de9a324da45d"
+          test "$delta" = "c902912c02197480f5b8430e4599651c0771e966cf1d46f1a19724037583a585"
+
+      - name: Publish GitHub release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          if gh release view v1.0.324 --repo BlasterXFIX/MiXeLed_Releases >/dev/null 2>&1; then
+            gh release upload v1.0.324 artifact/MiXeLeD-1.0.324.zip artifact/MiXeLeD-1.0.323-to-1.0.324.delta.zip --repo BlasterXFIX/MiXeLed_Releases --clobber
+            gh release edit v1.0.324 --repo BlasterXFIX/MiXeLed_Releases --title "MiXeLeD 1.0.324" --notes "Full Datacolor calibration diagnostics: unified MiXeLeD/Host/Bridge timeline, native API checkpoints, process/PID and state transitions, CAL/reference file timestamps and SHA-256, and a button to open the calibration log."
+          else
+            gh release create v1.0.324 artifact/MiXeLeD-1.0.324.zip artifact/MiXeLeD-1.0.323-to-1.0.324.delta.zip --repo BlasterXFIX/MiXeLed_Releases --title "MiXeLeD 1.0.324" --notes "Full Datacolor calibration diagnostics: unified MiXeLeD/Host/Bridge timeline, native API checkpoints, process/PID and state transitions, CAL/reference file timestamps and SHA-256, and a button to open the calibration log."
+          fi
+
+      - name: Update auto-update manifest
+        shell: bash
+        run: |
+          set -euo pipefail
+          cat > latest.json <<'JSON'
+          {
+            "version": "1.0.324",
+            "packageUrl": "https://github.com/BlasterXFIX/MiXeLed_Releases/releases/download/v1.0.324/MiXeLeD-1.0.324.zip",
+            "sha256": "4D7E78AA6F1D87A8628A07757276E678640A5B42784EC7BBD3B1DE9A324DA45D",
+            "deltaPackageUrl": "https://github.com/BlasterXFIX/MiXeLed_Releases/releases/download/v1.0.324/MiXeLeD-1.0.323-to-1.0.324.delta.zip",
+            "deltaSha256": "C902912C02197480F5B8430E4599651C0771E966CF1D46F1A19724037583A585",
+            "deltaFromVersion": "1.0.323",
+            "mandatory": false,
+            "notes": [
+              "MiXeLeD 1.0.324: добавлен полный диагностический лог калибровки Datacolor — MiXeLeD, Host и Bridge, PID/состояния, native API шаги, spClose/cold-start и снимки CAL/WHITE файлов с SHA-256. В диагностике прибора добавлена кнопка «Открыть лог калибровки»."
+            ]
+          }
+          JSON
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add latest.json
+          git commit -m "Publish MiXeLeD 1.0.324 manifest" || exit 0
+          git push
