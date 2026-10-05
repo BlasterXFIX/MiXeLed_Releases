@@ -1,0 +1,67 @@
+name: Publish MiXeLeD 1.0.316
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - ".github/workflows/publish-1.0.316.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout release repository
+        uses: actions/checkout@v4
+
+      - name: Download verified build artifact
+        shell: bash
+        run: |
+          set -euo pipefail
+          curl -fL --retry 3 --retry-delay 2 'https://sdmntprdenmarkeast.oaiusercontent.com/files/00000000-a96c-8210-beb9-488a3c5ec42e/raw?se=2026-10-05T07%3A24%3A01Z&sp=r&sv=2026-02-06&sr=b&scid=b0f90a7e-5954-5ad9-8323-16330812c27e&skoid=9b41a688-1b44-4731-856e-b0efcf3660ed&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2026-10-05T05%3A34%3A09Z&ske=2026-10-06T05%3A34%3A09Z&sks=b&skv=2026-02-06&sig=fRwK3fxN6CHToIdaMPa7p9xHoXiIx1pMjN0FomgLcRA%3D' -o artifact.zip
+          mkdir artifact
+          unzip -q artifact.zip -d artifact
+          test -f artifact/MiXeLeD-1.0.316.zip
+          test -f artifact/SHA256.txt
+          expected="$(awk '{print tolower($1)}' artifact/SHA256.txt)"
+          actual="$(sha256sum artifact/MiXeLeD-1.0.316.zip | awk '{print $1}')"
+          test "$expected" = "$actual"
+          test "$actual" = "e9505a6be2d0c62cb70acac5d4f8ab572ce4da1137c127f6ad2b206cffdf2ebe"
+
+      - name: Publish GitHub release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          if gh release view v1.0.316 --repo BlasterXFIX/MiXeLed_Releases >/dev/null 2>&1; then
+            gh release upload v1.0.316 artifact/MiXeLeD-1.0.316.zip --repo BlasterXFIX/MiXeLed_Releases --clobber
+            gh release edit v1.0.316 --repo BlasterXFIX/MiXeLed_Releases --title "MiXeLeD 1.0.316" --notes "Datacolor calibration kit detection fix for S/N 14409 and other matching instruments."
+          else
+            gh release create v1.0.316 artifact/MiXeLeD-1.0.316.zip --repo BlasterXFIX/MiXeLed_Releases --title "MiXeLeD 1.0.316" --notes "Datacolor calibration kit detection fix for S/N 14409 and other matching instruments."
+          fi
+
+      - name: Update auto-update manifest
+        shell: bash
+        run: |
+          set -euo pipefail
+          cat > latest.json <<'JSON'
+          {
+            "version": "1.0.316",
+            "packageUrl": "https://github.com/BlasterXFIX/MiXeLed_Releases/releases/download/v1.0.316/MiXeLeD-1.0.316.zip",
+            "sha256": "E9505A6BE2D0C62CB70ACAC5D4F8AB572CE4DA1137C127F6AD2B206CFFDF2EBE",
+            "mandatory": false,
+            "notes": [
+              "MiXeLeD 1.0.316: исправлен поиск и импорт полного комплекта калибровки Datacolor; если комплект не найден автоматически, сразу открывается выбор файла."
+            ]
+          }
+          JSON
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add latest.json
+          git commit -m "Publish MiXeLeD 1.0.316 manifest" || exit 0
+          git push
