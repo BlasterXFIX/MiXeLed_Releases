@@ -1,12 +1,12 @@
 {
-    "version":  "1.0.321",
-    "packageUrl":  "https://github.com/BlasterXFIX/MiXeLed_Releases/releases/download/v1.0.321/MiXeLeD-1.0.321.zip",
-    "sha256":  "734EBCB9616971FBF51D045465E87F504EC893C93E26C5602C7F94A7DE76B49A",
-    "deltaPackageUrl":  "https://github.com/BlasterXFIX/MiXeLed_Releases/releases/download/v1.0.321/MiXeLeD-1.0.320-to-1.0.321.delta.zip",
-    "deltaSha256":  "5575D9230D1E92144B882B66F9D808FE29CA7837355028ABF4498A52EC0F97C5",
-    "deltaFromVersion":  "1.0.320",
-    "mandatory":  false,
-    "notes":  [
-                  "MiXeLeD 1.0.321 release"
-              ]
+  "version": "1.0.322",
+  "packageUrl": "https://github.com/BlasterXFIX/MiXeLed_Releases/releases/download/v1.0.322/MiXeLeD-1.0.322.zip",
+  "sha256": "4BE43F15CD6F4BFD39E8521572596E62D247F96560B7E2845E96F4BA7E01D9AD",
+  "deltaPackageUrl": "https://github.com/BlasterXFIX/MiXeLed_Releases/releases/download/v1.0.322/MiXeLeD-1.0.321-to-1.0.322.delta.zip",
+  "deltaSha256": "8C0261EDAF697BA4E67CC04D609C2289094EAEF8B00C1745425B124964DEF719",
+  "deltaFromVersion": "1.0.321",
+  "mandatory": false,
+  "notes": [
+    "MiXeLeD 1.0.322: исправлено сохранение калибровки Datacolor после перезапуска Host/Windows; состояние считается сохранённым только после успешной проверки в новом Host."
+  ]
 }
