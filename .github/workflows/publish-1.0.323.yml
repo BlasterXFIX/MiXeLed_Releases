@@ -1,0 +1,70 @@
+name: Publish MiXeLeD 1.0.323
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - ".github/workflows/publish-1.0.323.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout release repository
+        uses: actions/checkout@v4
+
+      - name: Download verified build artifact
+        shell: bash
+        run: |
+          set -euo pipefail
+          curl -fL --retry 3 --retry-delay 2 'https://sdmntpritalynorth.oaiusercontent.com/files/00000000-5de4-8246-a033-081fa494d0bc/raw?se=2026-10-05T11%3A09%3A02Z&sp=r&sv=2026-02-06&sr=b&scid=5dd0f465-a95d-5b57-bd59-3864c3186724&skoid=9b41a688-1b44-4731-856e-b0efcf3660ed&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2026-10-05T05%3A50%3A04Z&ske=2026-10-06T05%3A50%3A04Z&sks=b&skv=2026-02-06&sig=VXpr0ppU6bzxxXQ//NPZdyc6DAXh7Vr2pWHSgT0MJLo%3D' -o artifact.zip
+          mkdir artifact
+          unzip -q artifact.zip -d artifact
+          test -f artifact/MiXeLeD-1.0.323.zip
+          test -f artifact/MiXeLeD-1.0.322-to-1.0.323.delta.zip
+          full="$(sha256sum artifact/MiXeLeD-1.0.323.zip | awk '{print $1}')"
+          delta="$(sha256sum artifact/MiXeLeD-1.0.322-to-1.0.323.delta.zip | awk '{print $1}')"
+          test "$full" = "fe0232ef0a817c1dc6e0b2e09cc0ddc47f4ce54db2bf28a6fb7d35ce40679887"
+          test "$delta" = "cac128cdc7b5d4c6ab6f0a2214a607b59e26ce8250ab4567b5eb7421e6a48cd2"
+
+      - name: Publish GitHub release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          if gh release view v1.0.323 --repo BlasterXFIX/MiXeLed_Releases >/dev/null 2>&1; then
+            gh release upload v1.0.323 artifact/MiXeLeD-1.0.323.zip artifact/MiXeLeD-1.0.322-to-1.0.323.delta.zip --repo BlasterXFIX/MiXeLed_Releases --clobber
+            gh release edit v1.0.323 --repo BlasterXFIX/MiXeLed_Releases --title "MiXeLeD 1.0.323" --notes "Datacolor calibration flow fix: green diagnostic now runs before Host restart verification, and UniSpef32 uses the native Calibration Files store for reliable cold-start restoration."
+          else
+            gh release create v1.0.323 artifact/MiXeLeD-1.0.323.zip artifact/MiXeLeD-1.0.322-to-1.0.323.delta.zip --repo BlasterXFIX/MiXeLed_Releases --title "MiXeLeD 1.0.323" --notes "Datacolor calibration flow fix: green diagnostic now runs before Host restart verification, and UniSpef32 uses the native Calibration Files store for reliable cold-start restoration."
+          fi
+
+      - name: Update auto-update manifest
+        shell: bash
+        run: |
+          set -euo pipefail
+          cat > latest.json <<'JSON'
+          {
+            "version": "1.0.323",
+            "packageUrl": "https://github.com/BlasterXFIX/MiXeLed_Releases/releases/download/v1.0.323/MiXeLeD-1.0.323.zip",
+            "sha256": "FE0232EF0A817C1DC6E0B2E09CC0DDC47F4CE54DB2BF28A6FB7D35CE40679887",
+            "deltaPackageUrl": "https://github.com/BlasterXFIX/MiXeLed_Releases/releases/download/v1.0.323/MiXeLeD-1.0.322-to-1.0.323.delta.zip",
+            "deltaSha256": "CAC128CDC7B5D4C6AB6F0A2214A607B59E26CE8250AB4567B5EB7421E6A48CD2",
+            "deltaFromVersion": "1.0.322",
+            "mandatory": false,
+            "notes": [
+              "MiXeLeD 1.0.323: зелёная плитка выполняется до перезапуска Host; рабочая калибровка снова хранится в родной папке Datacolor Calibration Files и после этого проверяется новым Host."
+            ]
+          }
+          JSON
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add latest.json
+          git commit -m "Publish MiXeLeD 1.0.323 manifest" || exit 0
+          git push
