@@ -1,12 +1,12 @@
 {
-  "version": "1.0.324",
-  "packageUrl": "https://github.com/BlasterXFIX/MiXeLed_Releases/releases/download/v1.0.324/MiXeLeD-1.0.324.zip",
-  "sha256": "4D7E78AA6F1D87A8628A07757276E678640A5B42784EC7BBD3B1DE9A324DA45D",
-  "deltaPackageUrl": "https://github.com/BlasterXFIX/MiXeLed_Releases/releases/download/v1.0.324/MiXeLeD-1.0.323-to-1.0.324.delta.zip",
-  "deltaSha256": "C902912C02197480F5B8430E4599651C0771E966CF1D46F1A19724037583A585",
-  "deltaFromVersion": "1.0.323",
+  "version": "1.0.325",
+  "packageUrl": "https://github.com/BlasterXFIX/MiXeLed_Releases/releases/download/v1.0.325/MiXeLeD-1.0.325.zip",
+  "sha256": "5FF5CBEC4FBAC84DE9F7EFAB13305FF22CA19D365A5FE64EF085FF50EDC7C6F2",
+  "deltaPackageUrl": "https://github.com/BlasterXFIX/MiXeLed_Releases/releases/download/v1.0.325/MiXeLeD-1.0.324-to-1.0.325.delta.zip",
+  "deltaSha256": "DBFD2AB2160007BF2B685FA40D3F13D152036ADF10AC01CE87A07FB9BE2BD16E",
+  "deltaFromVersion": "1.0.324",
   "mandatory": false,
   "notes": [
-    "MiXeLeD 1.0.324: добавлен полный диагностический лог калибровки Datacolor — MiXeLeD, Host и Bridge, PID/состояния, native API шаги, spClose/cold-start и снимки CAL/WHITE файлов с SHA-256. В диагностике прибора добавлена кнопка «Открыть лог калибровки»."
+    "MiXeLeD 1.0.325: калибровка Datacolor 110 теперь сохраняется в постоянном Host и больше не сбрасывается нашей принудительной проверкой нового Host. Закрытие Color Lab или MiXeLeD не сбрасывает активную калибровку; после перезагрузки Windows/Host на этом старом UniSpef32 потребуется калибровка заново."
   ]
 }
