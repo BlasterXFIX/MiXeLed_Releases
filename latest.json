@@ -1,9 +1,9 @@
 {
-  "version": "1.0.316",
-  "packageUrl": "https://github.com/BlasterXFIX/MiXeLed_Releases/releases/download/v1.0.316/MiXeLeD-1.0.316.zip",
-  "sha256": "E9505A6BE2D0C62CB70ACAC5D4F8AB572CE4DA1137C127F6AD2B206CFFDF2EBE",
+  "version": "1.0.317",
+  "packageUrl": "https://github.com/BlasterXFIX/MiXeLed_Releases/releases/download/v1.0.317/MiXeLeD-1.0.317.zip",
+  "sha256": "72DEE0053048C378AFD789940F97413364B4FE70108858D1E2F6E66B3500FAC7",
   "mandatory": false,
   "notes": [
-    "MiXeLeD 1.0.316: исправлен поиск и импорт полного комплекта калибровки Datacolor; если комплект не найден автоматически, сразу открывается выбор файла."
+    "MiXeLeD 1.0.317: исправлен импорт полного комплекта калибровки Datacolor. После выбора PRxxxx.CAL программа автоматически ищет WHITESE.DAT, WHITESI.DAT и diagtile.ini в той же папке и в каталогах Datacolor; окно выбора теперь показывает CAL/DAT/INI/GLS/ZIP."
   ]
 }
