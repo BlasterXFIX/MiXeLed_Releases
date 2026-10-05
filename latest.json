@@ -1,12 +1,12 @@
 {
-  "version": "1.0.319",
-  "packageUrl": "https://github.com/BlasterXFIX/MiXeLed_Releases/releases/download/v1.0.319/MiXeLeD-1.0.319.zip",
-  "sha256": "55E5D5C2CF8ED7E8B4A5F175CDFDE91518C03D2FD552B0D50420FA66FB5ED473",
-  "deltaPackageUrl": "",
-  "deltaSha256": "",
-  "deltaFromVersion": "",
+  "version": "1.0.320",
+  "packageUrl": "https://github.com/BlasterXFIX/MiXeLed_Releases/releases/download/v1.0.320/MiXeLeD-1.0.320.zip",
+  "sha256": "9BB14DEB45D57F664A6F5BE7E01EA75886D795BA4787B71DF07EF62AA6CA0F5A",
+  "deltaPackageUrl": "https://github.com/BlasterXFIX/MiXeLed_Releases/releases/download/v1.0.320/MiXeLeD-1.0.319-to-1.0.320.delta.zip",
+  "deltaSha256": "A0586394D69669613A79FA09CD0E0626941FEC14BA4BD10C6198F5C02515DFD7",
+  "deltaFromVersion": "1.0.319",
   "mandatory": false,
   "notes": [
-    "MiXeLeD 1.0.319: добавлена система компактных бинарных delta-обновлений с проверкой SHA-256 и автоматическим переходом на полный пакет при любой ошибке."
+    "MiXeLeD 1.0.320: подтверждение перед заменой эталона; количество краски в очереди КК; крупная строка текущей проверяемой краски; выделение активной строки КК. Для 1.0.319 доступно компактное delta-обновление."
   ]
 }
