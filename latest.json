@@ -1,12 +1,12 @@
 {
-  "version": "1.0.325",
-  "packageUrl": "https://github.com/BlasterXFIX/MiXeLed_Releases/releases/download/v1.0.325/MiXeLeD-1.0.325.zip",
-  "sha256": "5FF5CBEC4FBAC84DE9F7EFAB13305FF22CA19D365A5FE64EF085FF50EDC7C6F2",
-  "deltaPackageUrl": "https://github.com/BlasterXFIX/MiXeLed_Releases/releases/download/v1.0.325/MiXeLeD-1.0.324-to-1.0.325.delta.zip",
-  "deltaSha256": "DBFD2AB2160007BF2B685FA40D3F13D152036ADF10AC01CE87A07FB9BE2BD16E",
-  "deltaFromVersion": "1.0.324",
-  "mandatory": false,
-  "notes": [
-    "MiXeLeD 1.0.325: калибровка Datacolor 110 теперь сохраняется в постоянном Host и больше не сбрасывается нашей принудительной проверкой нового Host. Закрытие Color Lab или MiXeLeD не сбрасывает активную калибровку; после перезагрузки Windows/Host на этом старом UniSpef32 потребуется калибровка заново."
-  ]
+    "version":  "1.0.332",
+    "packageUrl":  "https://github.com/BlasterXFIX/MiXeLed_Releases/releases/download/v1.0.332/MiXeLeD-1.0.332.zip",
+    "sha256":  "81112C4C7F2E15A49D5C4C805F078DD29A0309859B3C6BB8B3841EA8D4673DA0",
+    "deltaPackageUrl":  "https://github.com/BlasterXFIX/MiXeLed_Releases/releases/download/v1.0.332/MiXeLeD-1.0.325-to-1.0.332.delta.zip",
+    "deltaSha256":  "8FAE68BA9768E8EDC5E5A90570078EB092409084E85F0F5597531CCD8C04456B",
+    "deltaFromVersion":  "1.0.325",
+    "mandatory":  false,
+    "notes":  [
+                  "MiXeLeD 1.0.332 release"
+              ]
 }
