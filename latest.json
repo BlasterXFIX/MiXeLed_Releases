@@ -1,15 +1,15 @@
 {
-    "version":  "1.0.543",
-    "packageUrl":  "https://github.com/BlasterXFIX/MiXeLed_Releases/releases/download/v1.0.543/MiXeLeD-1.0.543.zip",
-    "sha256":  "F51BFE258C4F0C4B50978C3473411C6DCCE36ABEFBA5918B044FD72A3BFC34FD",
-    "deltaPackageUrl":  "https://github.com/BlasterXFIX/MiXeLed_Releases/releases/download/v1.0.543/MiXeLeD-1.0.542-to-1.0.543.delta.zip",
-    "deltaSha256":  "81D9BBBEF96CA061D7D26848A4411345A22BC9948C1B9194D94CB4FCEFF4E034",
-    "deltaFromVersion":  "1.0.542",
-    "baseVersion":  "",
-    "basePackageUrl":  "",
-    "baseSha256":  "",
+    "version":  "1.0.544",
+    "packageUrl":  "",
+    "sha256":  "",
+    "deltaPackageUrl":  "https://github.com/BlasterXFIX/MiXeLed_Releases/releases/download/v1.0.544/MiXeLeD-1.0.543-to-1.0.544.delta.zip",
+    "deltaSha256":  "74DE5580303855D12DF328F9A849C884E917BBDE34F976D43FD44AE85FB72D64",
+    "deltaFromVersion":  "1.0.543",
+    "baseVersion":  "1.0.543",
+    "basePackageUrl":  "https://github.com/BlasterXFIX/MiXeLed_Releases/releases/download/v1.0.543/MiXeLeD-1.0.543.zip",
+    "baseSha256":  "F51BFE258C4F0C4B50978C3473411C6DCCE36ABEFBA5918B044FD72A3BFC34FD",
     "mandatory":  false,
     "notes":  [
-                  "MiXeLeD 1.0.543 release"
+                  "MiXeLeD 1.0.544 release"
               ]
 }
